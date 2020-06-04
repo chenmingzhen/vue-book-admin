@@ -23,7 +23,7 @@
           type="text"
           tabindex="1"
           autocomplete="on"
-        ></el-input>
+        />
       </el-form-item>
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
@@ -61,21 +61,20 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      if (!value || value.length === 0) {
+        callback(new Error('请输入用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 4) {
+        callback(new Error('密码不能少于4位'))
       } else {
         callback()
       }
@@ -101,6 +100,7 @@ export default {
     $route: {
       handler: function(route) {
         const query = route.query
+        console.log(route)
         if (query) {
           this.redirect = query.redirect
           this.otherQuery = this.getOtherQuery(query)
